@@ -10,7 +10,6 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var babelify = require('babelify');
-//var watchify = require('watchify'); // for faster browserify builds
 var assign = require('lodash.assign');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
@@ -140,7 +139,9 @@ gulp.task('browserify', function(){
       entries: ['./app/scripts/main.js'],
       debug: true
     })
-    .transform(babelify)
+    .transform(babelify.configure({
+      //ignore: /p5/
+    }))
     .bundle()
     .on("error", function (err) { console.log("Error : " + err.message); })
     .pipe(source('bundle.js'))
